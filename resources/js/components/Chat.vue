@@ -6,14 +6,14 @@
             <div v-for="(message, index) in messages"
                 :key="'chat-' +index">
                 <my-message
-                    v-if="message.user == userId"
+                    v-if="message.user_id == userId"
                     :message="message.text"
                 ></my-message>
 
                 <message
-                    v-if="message.user != userId"
+                    v-if="message.user_id != userId"
                     :message="message.text"
-                    :user="message.user"
+                    :user="message.user_id"
                 ></message>
             </div>
         </div>
@@ -46,10 +46,10 @@
            Echo.channel('unamula-trip-room.ref1')
                 .listen('chatChannel', (e) => {
                     console.log("echo", e);
-                    if(e.user != this.userId) {
+                    if(e.user_id != this.userId) {
                         this.messages.push({
                             text: e.message,
-                            user: e.user
+                            user_id: e.user_id
                         });
                     }
                 });
@@ -63,14 +63,13 @@
                 }).then((response) => {
                     this.messages.push({
                         text: this.newMessage,
-                        user: this.userId
+                        user_id: this.userId
                     });
 
                     this.newMessage = '';
                 }, (error) => {
                     console.log(error);
                 });
-
             }
         }
     }
